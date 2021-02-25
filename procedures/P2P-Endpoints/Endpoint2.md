@@ -33,6 +33,21 @@ Il dipose d'une base de donnée destination PostGreSQL qui sera synchronisée pa
 
 ### Configuration de Wireguard
 
+#### Avant-Propos
+
+Wireguard se configure grâce à des fichiers nommés /etc/wireguard/wg[XX].conf, où [xx] correspond au numéro du tunnel désiré. Nous devons créer autant de fichiers que de tunnel souhaités.
+
+Une fois une configuration rédigée, elle peut être démarrée par systemd. Il sufft d'ajouter le service souhaité de la manière suivante :
+> sudo systemctl enable wg-quick@wg[xx].service
+> sudo systemctl daemon-reload
+Où [xx] correspond au numéro du tunnel (et donc qui fait référence au fichier de configuration rédigé).
+Ensuite, il suffit de démarrer le tunnel :
+> sudo systemctl start wg-quick@wg0
+Et d'en afficher son statut :
+> systemctl status wg-quick@wg0
+Il est possible de voir l'état de tous les tunnels configurés :
+> wg show
+
 ### Configuration de Bird2
 
 ### Configuration sz PostGreSQL
