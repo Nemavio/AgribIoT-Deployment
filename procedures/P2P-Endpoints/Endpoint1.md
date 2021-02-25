@@ -7,11 +7,27 @@ Il dipose d'une base de donnée source PostGreSQL qui sera synchronisée par l'i
 
 ### Installation de PostGreSQL
 
+- Debian x86
+
+>apt install postgresql postgresql-client
+
 ### Installation de Bucardo
+
+- Debian x86
+
+>apt install bucardo
 
 ### Installation de Wireguard
 
+- Debian x86
+
+>apt install wireguard
+
 ### Installation de Bird2
+
+- Debian x86
+> echo "deb [trusted=yes] https://bird.network.cz/debian/ buster main" > /etc/apt/sources.list.d/bird.list
+> apt install bird2 bird2-doc
 
 ## Configuration
 
