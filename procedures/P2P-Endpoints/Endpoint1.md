@@ -21,6 +21,8 @@ Il dipose d'une base de donnée source PostGreSQL qui sera synchronisée par l'i
 
 - Debian x86
 
+> sudo sh -c "echo 'deb http://deb.debian.org/debian buster-backports main contrib non-free' > /etc/apt/sources.list.d/buster-backports.list"
+> apt update
 >apt install wireguard
 
 ### Installation de Bird2
