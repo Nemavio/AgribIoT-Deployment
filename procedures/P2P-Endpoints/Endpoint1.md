@@ -68,6 +68,55 @@ Il est possible de voir l'état de tous les tunnels configurés :
 
 > wg show
 
+#### Création de la configuration
+
+##### Premier noeud
+
+> cd /etc/wireguard
+> umask 077; wg genkey | tee privatekey | wg pubkey > publickey
+> nano /etc/wireguard/wg0.conf
+'''
+[Interface]
+Address = 192.168.10.1/24
+ 
+ListenPort = 51194
+ 
+PrivateKey = GENERATED_N1_PRIVATE_KEY_HERE
+'''
+> systemctl enable wg-quick@wg0
+> systemctl start wg-quick@wg0
+> systemctl status wg-quick@wg0
+
+
+##### Second noeud
+> cd /etc/wireguard
+> umask 077; wg genkey | tee privatekey | wg pubkey > publickey
+'''
+
+[Interface]
+PrivateKey = GENERATED_N2_PRIVATE_KEY_HERE
+ 
+Address = 192.168.10.2/24
+ 
+[Peer]
+PublicKey = GENERATED_N1_PUBLIC_KEY_HERE
+ 
+AllowedIPs = 192.168.10.0/24
+ 
+Endpoint = 172.105.112.120:51194
+ 
+PersistentKeepalive = 20
+'''
+##### Premier noeud
+> nano /etc/wireguard/wg0.conf
+à la fin de la configuration, rajouter :
+'''
+[Peer]
+PublicKey = 2H8vRWKCrddLf8vPwwTLMfZcRhOj10UBdc0j8W7yQAk=
+
+AllowedIPs = 10.129.28.2/24
+'''
+
 ### Configuration de Bird2
 
 ### Configuration sz PostGreSQL
