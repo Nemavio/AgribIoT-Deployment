@@ -22,14 +22,19 @@ Il dipose d'une base de donnée source PostGreSQL qui sera synchronisée par l'i
 - Debian x86
 
 > sudo sh -c "echo 'deb http://deb.debian.org/debian buster-backports main contrib non-free' > /etc/apt/sources.list.d/buster-backports.list"
+
 > apt update
+
 >apt install wireguard
 
 ### Installation de Bird2
 
 - Debian x86
+
 > echo "deb [trusted=yes] https://bird.network.cz/debian/ buster main" > /etc/apt/sources.list.d/bird.list
+
 >
+
 > apt install bird2 bird2-doc
 
 ## Configuration
@@ -41,6 +46,7 @@ Nous utilisons des IPs de liens locaux pou que les différentes machines du rés
 Dans le fichier /etc/network/interfaces, nous rajoutons cette ligne :
 
 > iface lo:10 inet6 static
+
 > 	address [IPv6 unique locale]/128
 
 Pour cette exemple nous prenons [IPv6 unique locale] = fd00:10ca:1:1452::1/128
@@ -53,6 +59,7 @@ Wireguard se configure grâce à des fichiers nommés /etc/wireguard/wg[XX].conf
 
 Une fois une configuration rédigée, elle peut être démarrée par systemd. Il sufft d'ajouter le service souhaité de la manière suivante :
 > sudo systemctl enable wg-quick@wg[xx].service
+
 > sudo systemctl daemon-reload
 
 Où [xx] correspond au numéro du tunnel (et donc qui fait référence au fichier de configuration rédigé).
@@ -73,7 +80,9 @@ Il est possible de voir l'état de tous les tunnels configurés :
 ##### Premier noeud
 
 > cd /etc/wireguard
+
 > umask 077; wg genkey | tee privatekey | wg pubkey > publickey
+
 > nano /etc/wireguard/wg0.conf
 '''
 [Interface]
@@ -83,14 +92,19 @@ ListenPort = 51194
  
 PrivateKey = GENERATED_N1_PRIVATE_KEY_HERE
 '''
+
 > systemctl enable wg-quick@wg0
+
 > systemctl start wg-quick@wg0
+
 > systemctl status wg-quick@wg0
 
 
 ##### Second noeud
 > cd /etc/wireguard
+
 > umask 077; wg genkey | tee privatekey | wg pubkey > publickey
+
 '''
 
 [Interface]
@@ -108,8 +122,11 @@ Endpoint = 172.105.112.120:51194
 PersistentKeepalive = 20
 '''
 ##### Premier noeud
+
 > nano /etc/wireguard/wg0.conf
+
 à la fin de la configuration, rajouter :
+
 '''
 [Peer]
 PublicKey = 2H8vRWKCrddLf8vPwwTLMfZcRhOj10UBdc0j8W7yQAk=
