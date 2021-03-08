@@ -15,21 +15,25 @@ Il dipose d'une base de donnée destination PostGreSQL qui sera synchronisée pa
 
 - Debian x86
 
->apt install bucardo
+> apt install bucardo
 
 ### Installation de Wireguard
 
 - Debian x86
 
 > sudo sh -c "echo 'deb http://deb.debian.org/debian buster-backports main contrib non-free' > /etc/apt/sources.list.d/buster-backports.list"
+
 > apt update
+
 >apt install wireguard
 
 ### Installation de Bird2
 
 - Debian x86
 > echo "deb [trusted=yes] https://bird.network.cz/debian/ buster main" > /etc/apt/sources.list.d/bird.list
+
 >
+
 > apt install bird2 bird2-doc
 
 ## Configuration
@@ -41,7 +45,9 @@ Il dipose d'une base de donnée destination PostGreSQL qui sera synchronisée pa
 Wireguard se configure grâce à des fichiers nommés /etc/wireguard/wg[XX].conf, où [xx] correspond au numéro du tunnel désiré. Nous devons créer autant de fichiers que de tunnel souhaités.
 
 Une fois une configuration rédigée, elle peut être démarrée par systemd. Il sufft d'ajouter le service souhaité de la manière suivante :
+
 > sudo systemctl enable wg-quick@wg[xx].service
+
 > sudo systemctl daemon-reload
 
 Où [xx] correspond au numéro du tunnel (et donc qui fait référence au fichier de configuration rédigé).
