@@ -104,12 +104,12 @@ Il est possible de voir l'état de tous les tunnels configurés :
 '''
 [Interface]
 
-Address = fd00:f55f:2::1/64
- 
-ListenPort = 51194
- 
 PrivateKey = GENERATED_N1_PRIVATE_KEY_HERE
 
+ListenPort = 51194
+
+Address = fd00:f55f:2::1/64
+ 
 Table = off
 
 '''
@@ -129,32 +129,44 @@ Table = off
 '''
 
 [Interface]
+
 PrivateKey = GENERATED_N2_PRIVATE_KEY_HERE
+
+ListenPort = 51194
  
 Address = fd00:f55f:2::2/64
 
 Table = off
  
 [Peer]
+
 PublicKey = GENERATED_N1_PUBLIC_KEY_HERE
  
 AllowedIPs = ::/0
  
-Endpoint = [IP joignable de la VM]
+Endpoint = [IP joignable de la VM]:[Port du tunnel distant]
  
-PersistentKeepalive = 20
+PersistentKeepalive = 5
 '''
+
+Dans notre exemple, noeud 1 a pour [IP joignable de la VM] l'adresse 172.16.36.41, et [Port du tunnel distant] est 51194 (configuré précédemment)
+
 ##### Premier noeud
 
 > nano /etc/wireguard/wg0.conf
 
-à la fin de la configuration, rajouter :
+à la fin de la configuration du premier noeud, rajouter :
 
 '''
 [Peer]
-PublicKey = GENERATED_N2_PUBLIC_KEY_HERE
 
+PublicKey = GENERATED_N1_PUBLIC_KEY_HERE
+ 
 AllowedIPs = ::/0
+ 
+Endpoint = [IP joignable de la VM]:[Port du tunnel distant]
+ 
+PersistentKeepalive = 5
 '''
 
 ### Configuration de Bird2
