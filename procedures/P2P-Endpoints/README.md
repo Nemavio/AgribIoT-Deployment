@@ -58,11 +58,15 @@ Nous utilisons des IPs de liens locaux pou que les différentes machines du rés
 
 Dans le fichier /etc/network/interfaces, nous rajoutons cette ligne :
 
+> auto lo:10
+
 > iface lo:10 inet6 static
 
 > 	address [IPv6 unique locale]/128
 
-Pour cette exemple nous prenons [IPv6 unique locale] = fd00:10ca:1:1452::1/128
+Pour cette exemple nous prenons pour le noeud 1 : [IPv6 unique locale] = fd00:10ca:1:1452::1/128
+
+Pour cette exemple nous prenons pour le noeud 2 : [IPv6 unique locale] = fd00:10ca:1:1452::2/128
 
 ### Configuration de Wireguard
 
@@ -99,11 +103,15 @@ Il est possible de voir l'état de tous les tunnels configurés :
 > nano /etc/wireguard/wg0.conf
 '''
 [Interface]
-Address = 192.168.10.1/24
+
+Address = fd00:f55f:2::1/64
  
 ListenPort = 51194
  
 PrivateKey = GENERATED_N1_PRIVATE_KEY_HERE
+
+Table = off
+
 '''
 
 > systemctl enable wg-quick@wg0
@@ -123,12 +131,14 @@ PrivateKey = GENERATED_N1_PRIVATE_KEY_HERE
 [Interface]
 PrivateKey = GENERATED_N2_PRIVATE_KEY_HERE
  
-Address = 192.168.10.2/24
+Address = fd00:f55f:2::2/64
+
+Table = off
  
 [Peer]
 PublicKey = GENERATED_N1_PUBLIC_KEY_HERE
  
-AllowedIPs = 192.168.10.0/24
+AllowedIPs = ::/0
  
 Endpoint = 172.105.112.120:51194
  
@@ -142,9 +152,9 @@ PersistentKeepalive = 20
 
 '''
 [Peer]
-PublicKey = 2H8vRWKCrddLf8vPwwTLMfZcRhOj10UBdc0j8W7yQAk=
+PublicKey = GENERATED_N2_PUBLIC_KEY_HERE
 
-AllowedIPs = 10.129.28.2/24
+AllowedIPs = ::/0
 '''
 
 ### Configuration de Bird2
